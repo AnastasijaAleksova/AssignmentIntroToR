@@ -12,6 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-print("Hi")
+print("Hi, it is Anastasija")
 ```
 
