@@ -1,0 +1,12 @@
+---
+title: "Assignment"
+output: html_document
+date: "`r Sys.Date()`"
+output: 
+  prettydoc::html_pretty:
+    theme: "tactile"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
