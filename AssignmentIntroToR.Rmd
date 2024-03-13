@@ -12,6 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-print("Hi, it is Anastasija. I am 20")
+print("Hi, it is Anastasija. I am 20 and studying in Utrecht")
 ```
 
