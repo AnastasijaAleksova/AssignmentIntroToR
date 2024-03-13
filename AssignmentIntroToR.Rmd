@@ -11,7 +11,19 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Introduction
 ```{r}
-print("Hi, it is Anastasija. I am 20 and studying in Utrecht")
+```
+
+## Data
+```{r}
+```
+
+## Analysis
+```{r}
+```
+
+## Conclusion
+```{r}
 ```
 
