@@ -9,10 +9,40 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(readr)
 ```
 
+```{r, include=FALSE}
+funda <- read.csv("/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/Funda_dataset_cleaned.csv") 
+
+funda$Verkoopdatum <- as.Date(funda$Verkoopdatum, format="%Y-%m-%d")
+funda$Aangeboden.sinds <- as.Date(funda$Aangeboden.sinds, format="%Y-%m-%d")
+
+funda <- funda %>%
+  arrange(Verkoopdatum) %>%
+  filter(Energielabel != "None")
+
+min_funda <- min(funda$Verkoopdatum, na.rm = TRUE)
+
+interest_rates <- read.csv("/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/ECB Data Portal_20240318183415.csv") 
+
+interest_rates$DATE <- as.Date(interest_rates$DATE, format="%Y-%m-%d")
+
+funda <- select(funda, Verkoopdatum, Energielabel)
+
+data <- full_join(funda, interest_rates, by = c("Verkoopdatum" = "DATE"))
+
+data <- filter(data, Verkoopdatum >= min_funda) %>%
+  arrange(Verkoopdatum) %>%
+  select(-TIME.PERIOD)
+
+write.csv(data, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/data.csv", row.names = FALSE)
+```
 ## Introduction
 ```{r}
+
+
 ```
 
 ## Data
