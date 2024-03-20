@@ -53,8 +53,7 @@ The European central Bank (ECB) HCIP dataset reflects the main refinancing inter
 
 The rationale behind merging these two datasets stems from the intention to explore how ECB interest rate changes correlate with trends in the real estate market in the Netherlands. This analysis can reveal insights into how macroeconomic policy impacts real estate values and sales activities over time.
 
-
-we need to explain the ecb interest rate dataset and reason why we are using it. explain the cleaning and merging of the two datasets.
+The cleaning and merging process consists of several steps to ensure compatibility and relevance of the data for analysis: (explain the cleaning and merging of the two datasets)
 
 ```{r}
 
