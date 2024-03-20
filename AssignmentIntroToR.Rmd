@@ -1,6 +1,5 @@
 ---
 title: "Assignment"
-output: html_document
 date: "`r Sys.Date()`"
 output: 
   prettydoc::html_pretty:
@@ -39,6 +38,7 @@ data <- filter(data, Verkoopdatum >= min_funda) %>%
 
 write.csv(data, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/data.csv", row.names = FALSE)
 ```
+
 ## Introduction
 ```{r}
 
@@ -46,7 +46,18 @@ write.csv(data, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~Cl
 ```
 
 ## Data
+
+[Funda.nl](https://www.kaggle.com/datasets/yoerireumkens/funda-sold-houses-data-raw-dutch-columns) is a popular Dutch website dedicated to real estate listings and property-related information. It serves as a comprehensive platform for individuals looking to buy, sell, or rent properties in the Netherlands. Funda.nl provides users with an extensive database of listings, including houses, apartments, and commercial properties, along with relevant details such as property specifications, photos, and pricing information. The platform also offers tools for filtering and searching for properties based on various criteria, making it a valuable resource for those interested in the Dutch real estate market. Please note that all columns in the dataset are in Dutch, a list of translations for each column is provided.
+
+The European central Bank (ECB) HCIP dataset reflects the main refinancing interest rate which is direct monetary policy tool that plays an instrumental role in the Eurozone economic activity, i.e. economic activity in the Netherlands. Interest rates set by the ECB affect borrowing behaviour, consumer spending,  and investment, which in turn is proven to influence the real estate market. Alone, lower interest rates make borrowing cheaper, consequently boosting demand for real estate, while higher rates could dampen this demand.
+
+The rationale behind merging these two datasets stems from the intention to explore how ECB interest rate changes correlate with trends in the real estate market in the Netherlands. This analysis can reveal insights into how macroeconomic policy impacts real estate values and sales activities over time.
+
+
+we need to explain the ecb interest rate dataset and reason why we are using it. explain the cleaning and merging of the two datasets.
+
 ```{r}
+
 ```
 
 ## Analysis
