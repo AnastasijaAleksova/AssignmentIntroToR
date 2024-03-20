@@ -10,33 +10,82 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(readr)
+library(stringr)
 ```
 
 ```{r, include=FALSE}
+# Opening the comprehensive tidy dataset (Funda_dataset_cleaned.csv)
 funda <- read.csv("/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/Funda_dataset_cleaned.csv") 
 
+# Setting the date of the sale
 funda$Verkoopdatum <- as.Date(funda$Verkoopdatum, format="%Y-%m-%d")
-funda$Aangeboden.sinds <- as.Date(funda$Aangeboden.sinds, format="%Y-%m-%d")
 
 funda <- funda %>%
-  arrange(Verkoopdatum) %>%
-  filter(Energielabel != "None")
+  arrange(Verkoopdatum) %>% # Arranges the data frame in ascending order based on the values purchase date column
+  filter(Energielabel != "None") # Filters the rows in the dataframe to keep only those where the value is not equal to none
 
+# Setting the earliest purchase date as significant value
 min_funda <- min(funda$Verkoopdatum, na.rm = TRUE)
 
+# Opening the dataset (ECB Data.csv)
 interest_rates <- read.csv("/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/ECB Data Portal_20240318183415.csv") 
 
+# Setting the date of the interest rate changes
 interest_rates$DATE <- as.Date(interest_rates$DATE, format="%Y-%m-%d")
 
+# Isolating the columns needed
 funda <- select(funda, Verkoopdatum, Energielabel)
 
+# Joining the two datasets together through the dates
 data <- full_join(funda, interest_rates, by = c("Verkoopdatum" = "DATE"))
 
+# Filtering the data set based on the values in the purchase date to keep only the dates greater than or equal to the minimum funda date
 data <- filter(data, Verkoopdatum >= min_funda) %>%
-  arrange(Verkoopdatum) %>%
+  arrange(Verkoopdatum) %>% # Arranges the data in ascending order based on the dats
+  select(-TIME.PERIOD) # Select all but TIME.PERIOD
+
+# Create a new variable called "energy_category"
+data$Energielabel <- ifelse(str_detect(data$Energielabel, "^A"), 
+                            "≥A", 
+                            data$Energielabel)
+
+# Translating from Dutch to English
+names(data)[1] <-  "date" 
+names(data)[2] <- "energy_label" 
+names(data)[3] <- "main_refinancing_rate"
+
+names(interest_rates)[1] <-  "date" 
+names(interest_rates)[3] <- "main_refinancing_rate"
+
+interest_rates <- interest_rates %>%
+  filter(date >= min_funda) %>%
   select(-TIME.PERIOD)
 
+# Loop through each row in 'data'
+for(i in 1:nrow(data)) {
+  # Find the indexes of the 'interest_rates' observations where 'date' is less than or equal to 'date' in 'data'
+  j <- which(interest_rates$date <= data$date[i])
+  
+  # Check if 'j' is not empty and the last index in 'j' is not the last observation in 'interest_rates'
+  if(length(j) > 0 && max(j) < nrow(interest_rates)) {
+    # Ensure 'j' refers to the last index where 'date' in 'interest_rates' <= 'date' in 'data'
+    j <- max(j)
+    
+    # Check if 'data$date[i]' is also less than the next 'date' in 'interest_rates'
+    if(data$date[i] <= interest_rates$date[j + 1]) {
+      # Update 'main_refinancing_rate' in 'data' with the value from 'interest_rates' at 'j'
+      data$main_refinancing_rate[i] <- interest_rates$main_refinancing_rate[j]
+    }
+  } 
+  else {
+    # Handle cases where 'data$date[i]' is before all dates in 'interest_rates' or 'j' is empty
+    data$main_refinancing_rate[i] <- 0.00  # Or use the interest rate before the interest rate hike
+  }
+}
+
 write.csv(data, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/data.csv", row.names = FALSE)
+
+write.csv(interest_rates, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/interest_rates.csv", row.names = FALSE)
 ```
 
 ## Introduction
