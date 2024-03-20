@@ -83,6 +83,7 @@ for(i in 1:nrow(data)) {
   }
 }
 
+# Saving the CSV file
 write.csv(data, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/data.csv", row.names = FALSE)
 
 write.csv(interest_rates, "/Users/anastasijaaleksova/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Utrecht University/Y2P3/Introduction to R/AssignmentIntroToR/interest_rates.csv", row.names = FALSE)
